@@ -19,7 +19,7 @@ RSpec.describe 'Subscription API' do
 
     expect(success_response).to be_a(Hash)
     expect(success_response).to have_key(:success)
-    expect(success_response[:success]).to eq("Subscription created successfully")
+    expect(success_response[:success]).to eq("#{tea.title} Subscription created successfully for #{customer.first_name}")
   end
 
   it 'will send an error if not able to create a subscription' do
