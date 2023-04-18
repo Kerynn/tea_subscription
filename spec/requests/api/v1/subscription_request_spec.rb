@@ -21,4 +21,25 @@ RSpec.describe 'Subscription API' do
     expect(success_response).to have_key(:success)
     expect(success_response[:success]).to eq("Subscription created successfully")
   end
+
+  it 'will send an error if not able to create a subscription' do
+    customer = create(:customer)
+    tea = create(:tea)
+
+    expect(customer.subscriptions.empty?).to be true
+
+    headers = { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
+    body = { tea_id: tea.id, title: tea.title, price: 10.00 }
+    post '/api/v1/subscriptions', params: body.to_json, headers: headers
+
+    expect(response).to_not be_successful
+    expect(response).to have_http_status(400)
+    expect(customer.subscriptions.empty?).to be true
+
+    error_response = JSON.parse(response.body, symbolize_names: true)
+    
+    expect(error_response).to be_a(Hash)
+    expect(error_response).to have_key(:errors)
+    expect(error_response[:errors]).to eq("Customer must exist and Frequency can't be blank")
+  end
 end
