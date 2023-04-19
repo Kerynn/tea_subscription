@@ -1,4 +1,4 @@
-class Api::V1::SubscriptionsController < ApplicationController 
+class Api::V1::SubscriptionsController < ApplicationController
 
   def create
     subscription = Subscription.new(subscription_params)
@@ -15,7 +15,7 @@ class Api::V1::SubscriptionsController < ApplicationController
       render json: SubscriptionSerializer.new(customer.subscriptions)
     else
       render json: { errors: "Customer not found" }, status: :not_found
-    end 
+    end
   end
 
   def update
@@ -29,10 +29,10 @@ class Api::V1::SubscriptionsController < ApplicationController
       end
     else
       render json: { errors: "Subscription not found" }, status: :not_found
-    end 
+    end
   end
 
-  private 
+  private
 
   def subscription_params 
     params.permit(:customer_id, :tea_id, :title, :price, :status, :frequency)
