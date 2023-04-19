@@ -23,6 +23,9 @@ class Api::V1::SubscriptionsController < ApplicationController
     if subscription.status == 'active'
       subscription.update(status: 'cancelled')
       render json: { success: "#{subscription.title} subscription cancelled successfully" }, status: :ok
+    elsif subscription.status == 'cancelled'
+      subscription.update(status: 'active')
+      render json: { success: "#{subscription.title} subscription reactivated successfully" }, status: :ok
     end
   end
 
