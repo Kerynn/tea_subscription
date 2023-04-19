@@ -42,4 +42,17 @@ RSpec.describe 'Cancel Subscription API' do
     expect(success_response[:success]).to eq("#{@subscription_1.title} subscription reactivated successfully")
     expect(reactivated.status).to eq('active')
   end
+
+  it 'will return an error if subscription is not found' do
+    patch "/api/v1/subscriptions/999999999"
+
+    expect(response).to_not be_successful
+    expect(response).to have_http_status(404)
+
+    error_response = JSON.parse(response.body, symbolize_names: true)
+
+    expect(error_response).to be_a(Hash)
+    expect(error_response).to have_key(:errors)
+    expect(error_response[:errors]).to eq("Subscription not found")
+  end
 end
