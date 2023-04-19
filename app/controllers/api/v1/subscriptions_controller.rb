@@ -10,6 +10,14 @@ class Api::V1::SubscriptionsController < ApplicationController
     end
   end
 
+  def index
+    if (customer = Customer.find_by(id: params[:customer_id]))
+      render json: SubscriptionSerializer.new(customer.subscriptions)
+    else
+      render json: { errors: "Customer not found" }, status: :not_found
+    end 
+  end
+
   private 
 
   def subscription_params 
