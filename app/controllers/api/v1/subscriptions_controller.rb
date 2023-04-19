@@ -18,6 +18,14 @@ class Api::V1::SubscriptionsController < ApplicationController
     end 
   end
 
+  def update
+    subscription = Subscription.find_by(id: params[:id])
+    if subscription.status == 'active'
+      subscription.update(status: 'cancelled')
+      render json: { success: "#{subscription.title} subscription cancelled successfully" }, status: :ok
+    end
+  end
+
   private 
 
   def subscription_params 
