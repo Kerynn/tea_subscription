@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Subscription API' do 
+RSpec.describe 'Create Subscription API' do 
   it 'can create a customer subscription' do 
     customer = create(:customer)
     tea = create(:tea)
