@@ -49,6 +49,33 @@ RSpec.describe 'Get Subscriptions API' do
     end
   end
 
+  it 'will return an error if no customer is found' do
+    get "/api/v1/subscriptions?customer_id=9999999999"
+
+    expect(response).to_not be_successful
+    expect(response).to have_http_status(404)
+
+    error_response = JSON.parse(response.body, symbolize_names: true)
+
+    expect(error_response).to be_a(Hash)
+    expect(error_response).to have_key(:errors)
+    expect(error_response[:errors]).to eq("Customer not found")
+  end
+
+  it 'will return an empty array is customer does not have any subscriptions' do 
+    customer = create(:customer)
+    expect(customer.subscriptions.count).to eq(0)
+
+    get "/api/v1/subscriptions?customer_id=#{customer.id}"
+
+    expect(response).to be_successful
+
+    subscriptions = JSON.parse(response.body, symbolize_names: true)
+
+    expect(subscriptions).to be_a(Hash)
+    expect(subscriptions).to have_key(:data)
+    expect(subscriptions[:data].count).to eq(0)
+  end
 
   ## Test will also get active and cancelled subscriptions
 end
