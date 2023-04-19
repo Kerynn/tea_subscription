@@ -21,6 +21,8 @@ The goal of this project is to create a backend API service that will be used by
 
 ## DB Schema
 
+![Screen Shot 2023-04-19 at 4 09 54 PM](https://user-images.githubusercontent.com/111480866/233220171-e6bf73df-a617-4c3f-b51b-cf258ed92619.png)
+
 ## Endpoints
 
 All endpoints start with url: http://localhost:3000
