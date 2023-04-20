@@ -52,24 +52,28 @@ All endpoints start with url: http://localhost:3000
 ```
 
 ### Update Subscription (cancel or reactivate)
-  *If the subscription is currently active, this endpoint will update the status to be cancelled. However, if the subscription is currently cancelled, this endpoint will update the status to active.*
 
 **Request:**
 ```
-  PATCH "/api/v1/subscriptions/<subscription_id>"
+  PATCH "/api/v1/subscriptions/<subscription_id>?status=cancelled"
 ```
 
 **Cancelled Response:**
 ```
   {
-    "success": "Sunshine Spice Subscription cancelled successfully"
+    "success": "Sunshine Spice subscription status updated successfully to cancelled"
   }
+```
+
+**Request:**
+```
+  PATCH "/api/v1/subscriptions/<subscription_id>?status=active"
 ```
 
 **Reactivated Response:**
 ```
   {
-    "success": "Sunshine Spice Subscription reactivated successfully"
+    "success": "Sunshine Spice subscription status updated successfully to active"
   }
 ```
 

@@ -9,7 +9,7 @@ RSpec.describe 'Get Subscriptions API' do
     tea_4 = create(:tea)
 
     subscription_1 = customer.subscriptions.create!(tea_id: tea_1.id, title: tea_1.title, price: 10.00, status: 'active', frequency: 'monthly')
-    subscription_2 = customer.subscriptions.create!(tea_id: tea_2.id, title: tea_2.title, price: 8.99, status: 'active', frequency: 'weekly')
+    subscription_2 = customer.subscriptions.create!(tea_id: tea_2.id, title: tea_2.title, price: 8.99, status: 'cancelled', frequency: 'weekly')
     subscription_3 = customer.subscriptions.create!(tea_id: tea_3.id, title: tea_3.title, price: 5.00, status: 'active', frequency: 'yearly')
 
     expect(customer.subscriptions.count).to eq(3)
@@ -76,6 +76,4 @@ RSpec.describe 'Get Subscriptions API' do
     expect(subscriptions).to have_key(:data)
     expect(subscriptions[:data].count).to eq(0)
   end
-
-  ## Test will also get active and cancelled subscriptions
 end

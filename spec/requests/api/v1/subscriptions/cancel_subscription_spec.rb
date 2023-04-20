@@ -15,7 +15,7 @@ RSpec.describe 'Cancel Subscription API' do
   it 'can cancel a customer subscription' do
     expect(@subscription_1.status).to eq('active')
 
-    patch "/api/v1/subscriptions/#{@subscription_1.id}"
+    patch "/api/v1/subscriptions/#{@subscription_1.id}?status=cancelled"
 
     success_response = JSON.parse(response.body, symbolize_names: true)
     cancelled = Subscription.find_by(id: @subscription_1.id)
@@ -23,7 +23,7 @@ RSpec.describe 'Cancel Subscription API' do
     expect(response).to be_successful
     expect(response).to have_http_status(200)
     expect(success_response).to have_key(:success)
-    expect(success_response[:success]).to eq("#{@subscription_1.title} subscription cancelled successfully")
+    expect(success_response[:success]).to eq("#{@subscription_1.title} subscription status updated successfully to cancelled")
     expect(cancelled.status).to eq('cancelled')
   end
 
@@ -31,7 +31,7 @@ RSpec.describe 'Cancel Subscription API' do
     @subscription_1.status = 'cancelled'
     @subscription_1.save
 
-    patch "/api/v1/subscriptions/#{@subscription_1.id}"
+    patch "/api/v1/subscriptions/#{@subscription_1.id}?status=active"
 
     success_response = JSON.parse(response.body, symbolize_names: true)
     reactivated = Subscription.find_by(id: @subscription_1.id)
@@ -39,7 +39,7 @@ RSpec.describe 'Cancel Subscription API' do
     expect(response).to be_successful
     expect(response).to have_http_status(200)
     expect(success_response).to have_key(:success)
-    expect(success_response[:success]).to eq("#{@subscription_1.title} subscription reactivated successfully")
+    expect(success_response[:success]).to eq("#{@subscription_1.title} subscription status updated successfully to active")
     expect(reactivated.status).to eq('active')
   end
 
